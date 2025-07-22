@@ -21,8 +21,8 @@ source-code: https://github.com/CollectionBuilder/collectionbuilder-gh
 #
 # title of site appears in banner
 title: "The Cormier-Turner Cookbook Collection"
-# tagline, a short phrase that will appear throughout the site in the top banner"
-tagline: "People who love to eat are always the best people - Julia Child
+# tagline, a short phrase that will appear throughout the site in the top banner
+tagline: "People who love to eat are always the best people - Julia Child"
 # description appears in meta tags and other locations
 # this description might appear in search result lists, keep around 160 characters max
 description: "An overview of the cookbooks in our home library collection"
