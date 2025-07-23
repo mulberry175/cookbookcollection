@@ -10,6 +10,6 @@ credits: true
 
 ## About the Collection
 
-This collection began 26 years ago with a single cookbook gifted to me on my 18th birthday. <em>The Naked Chef</em> ignited my love of cookbooks and I have been collecting them ever since!
+Twenty five years ago I was gifted my very first cookbook for my 18th birthday and I have been collecting them ever since! More than just a collection of recipes, each cookbkook in the collection represents a specific moment in time and holds within its pages memories of meals shared and occassions celebrated with the people I love the most.
 
-{% include feature/image.html objectid="item19" width="75" %}
+{% include feature/image.html objectid="item19" width="75" caption="The cookbook that started it all" %}
