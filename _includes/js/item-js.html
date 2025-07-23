@@ -398,16 +398,10 @@ function displayItem(record, prev_id, next_id, compound_object) {
     var backUrl = "{{ '/item.html?id=' | relative_url }}" + prev_id;
     var forwardUrl = "{{ '/item.html?id=' | relative_url }}" + next_id;
     /* add side buttons to page */
-   if (document.getElementById('item-nav-left')) {
-  document.getElementById('item-nav-left').innerHTML = item.prev_link
-    ? `<a class="btn btn-outline-secondary" href="${item.prev_link}" title="Previous Item">&larr;</a>`
-    : '';
-}
-if (document.getElementById('item-nav-right')) {
-  document.getElementById('item-nav-right').innerHTML = item.next_link
-    ? `<a class="btn btn-outline-secondary" href="${item.next_link}" title="Next Item">&rarr;</a>`
-    : '';
-}
+ document.getElementById("item-nav").innerHTML = `<div class="d-none d-md-block">
+            <a id="back-button" class="previous btn btn-lg btn-secondary" href="${backUrl}">&laquo;</a>
+            <a id="next-button" class="next btn btn-lg btn-secondary" href="${forwardUrl}">&raquo;</a>
+        </div>`;
     /* add bottom buttons to page */
     document.getElementById("browse-buttons").innerHTML = `<a id="prev-button" class="btn btn-secondary" href="${backUrl}">&laquo; Previous</a>
         <a class="btn btn-secondary" href="{{ '/browse.html' | relative_url }}">Back to browse</a>
