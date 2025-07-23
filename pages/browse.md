@@ -7,7 +7,3 @@ permalink: /browse.html
 ---
 
 ## Browse Items
-.card {
-  border: none !important;
-  box-shadow: none !important; /* optional: removes shadows too */
-}
