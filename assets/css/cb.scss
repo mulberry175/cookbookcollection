@@ -31,3 +31,9 @@ $theme-colors: map-merge(
 {% endif %}
 
 @import "base", "pages", "custom";
+
+#item-content .card,
+#item-metadata .card {
+  border: none !important;
+  box-shadow: none !important;
+}
