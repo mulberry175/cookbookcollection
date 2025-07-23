@@ -31,8 +31,3 @@ $theme-colors: map-merge(
 {% endif %}
 
 @import "base", "pages", "custom";
-
-.borderless-card {
-  border: none !important;
-  box-shadow: none !important;
-}
