@@ -33,6 +33,7 @@
 
 <style>
 .jumbotron {
+    height: 800px;
     padding: 4rem 2rem;
     margin-bottom: 2rem;
     background-color: #e9ecef;
@@ -41,7 +42,6 @@
 #{{ jumbo_div_id }} {
     background-image: url({{ jumboSrc }});
     background-size: cover;
-    background-height: 8000px;
     background-repeat: no-repeat;
     background-position: {{ include.position | default: 'center' }};
 }
