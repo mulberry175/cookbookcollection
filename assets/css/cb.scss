@@ -32,7 +32,4 @@ $theme-colors: map-merge(
 
 @import "base", "pages", "custom";
 
-.card {
-  border: none !important;
-  box-shadow: none !important; /* optional: removes shadows too */
-}
+
