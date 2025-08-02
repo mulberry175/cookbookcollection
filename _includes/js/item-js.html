@@ -480,50 +480,44 @@ function displayItem(record, prev_id, next_id, compound_object) {
     };
     {%- endif -%}
 }
+document.addEventListener('DOMContentLoaded', function () {
+    /* initiate the Item page */ 
 
-/* initiate the Item page */ 
+    let url = new URL(window.location);
+    var itemPageId = url.searchParams.get('id');
+    var record_index = cb_items.findIndex(item => item.objectid == itemPageId); 
+    var child_records = cb_items.filter(item => item.parentid == itemPageId);
 
-/* get objectid from URL */
-let url = new URL(window.location);
-var itemPageId = url.searchParams.get('id');
-/* find the item by objectid */
-var record_index = cb_items.findIndex(item => item.objectid == itemPageId); 
-/* find any related children if applicable */ 
-var child_records = cb_items.filter(item => item.parentid == itemPageId);
+    if (record_index != -1 && cb_items[record_index].parentid) {
+        document.getElementById("bc-title").innerHTML = 'Child Item Error!';
+        document.getElementById("item-title").innerHTML = 'This id is a child item in a compound object, please visit the <a href="{{ "/item.html" | relative_url }}?id=' + cb_items[record_index].parentid + '#' + cb_items[record_index].objectid + '">parent item page to view</a>.';
+    } else if (record_index != -1) {
+        var prev_id, next_id;
+        {% if site.data.theme.browse-buttons == true %}
+        var parent_items = cb_items.filter(item => !item.parentid );
+        var parent_record_index = parent_items.findIndex(item => item.objectid == itemPageId); 
+        var last = parent_items.length - 1;
+        if (parent_record_index === 0) {
+            prev_id = parent_items[last].objectid;
+        } else { 
+            prev_id = parent_items[parent_record_index - 1].objectid;
+        }
+        if (parent_record_index === last) {
+            next_id = parent_items[0].objectid;
+        } else {
+            next_id = parent_items[parent_record_index + 1].objectid;
+        }
+        {% endif %}
 
-if (record_index != -1 && cb_items[record_index].parentid) {
-    // provide redirect for child items of compound objects
-    document.getElementById("bc-title").innerHTML = 'Child Item Error!';
-    document.getElementById("item-title").innerHTML = 'This id is a child item in a compound object, please visit the <a href="{{ "/item.html" | relative_url }}?id=' + cb_items[record_index].parentid + '#' + cb_items[record_index].objectid + '">parent item page to view</a>.';
-
-} else if (record_index != -1) {
-    // display item if it exists
-    var prev_id, next_id;
-    {% if site.data.theme.browse-buttons == true %}
-    // find parents only 
-    var parent_items = cb_items.filter(item => !item.parentid );
-    var parent_record_index = parent_items.findIndex(item => item.objectid == itemPageId); 
-    // find next and previous record
-    var last = parent_items.length - 1;
-    if (parent_record_index === 0) {
-        prev_id = parent_items[last].objectid;
-    } else { 
-        prev_id = parent_items[parent_record_index - 1].objectid;
-    }
-    if (parent_record_index === last) {
-        next_id = parent_items[0].objectid;
+        displayItem(cb_items[record_index], prev_id, next_id, child_records);
     } else {
-        next_id = parent_items[parent_record_index + 1].objectid;
-    }{% endif %}
+        document.getElementById("bc-title").innerHTML = 'Not found?';
+        document.getElementById("item-title").innerHTML = 'Sorry, item not found. Please visit <a href="{{ "/browse.html" | relative_url }}">Browse page</a> to find an item.';
+    }
 
-    // display item
-    displayItem(cb_items[record_index], prev_id, next_id, child_records);
+    document.getElementById("loading").style.display = "none";
+});
 
-} else {
-    /* no item with that ID */
-    document.getElementById("bc-title").innerHTML = 'Not found?';
-    document.getElementById("item-title").innerHTML = 'Sorry, item not found. Please visit <a href="{{ "/browse.html" | relative_url }}">Browse page</a> to find an item.';
-}
 
 /* all done, so hide loading animation */
 document.getElementById("loading").style.display = "none";
