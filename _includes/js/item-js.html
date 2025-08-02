@@ -153,7 +153,7 @@ function displayItem(record, prev_id, next_id, compound_object) {
             var partOrder = i + 1;
 
             /* account for items without title */
-            var itemTitle = typeof compoundTitle !== 'undefined' ? <div class="small text-dark mb-2">${compoundTitle.split(" ").splice(0,4).join(" ")}...</div> : '';
+            var itemTitle = typeof compoundTitle !== 'undefined' ? `<div class="small text-dark mb-2">${compoundTitle.split(" ").splice(0,4).join(" ")}...</div>` : '';
 
             /* get thumbnail or icon for compound object cards based on item format */
             var compoundIcon, compoundThumb;
@@ -173,13 +173,13 @@ function displayItem(record, prev_id, next_id, compound_object) {
 
             /* set up image for compound object cards */
             if (compoundFormat.includes('image')) {
-                compoundThumb = <img class="img-thumbnail compound-thumb" src="${compoundIcon}" alt="image of ${compoundTitle ? compoundTitle : objectTitle + ', part ' + partOrder}">;
+                compoundThumb = `<img class="img-thumbnail compound-thumb" src="${compoundIcon}" alt="image of ${compoundTitle ? compoundTitle : objectTitle + ', part ' + partOrder}">`;
             } else {
-                compoundThumb = 
+                compoundThumb = `
                     <svg class="bi text-body compound-thumb" fill="currentColor" aria-hidden="true">
                         <use xlink:href="{{ '/assets/lib/cb-icons.svg' | relative_url }}#${compoundIcon}" />
                     </svg>
-                    <span class="sr-only d-none">${compoundTitle ? compoundTitle : 'Part ' + partOrder + ' of ' + objectTitle} - ${compoundFormat}</span>;
+                    <span class="sr-only d-none">${compoundTitle ? compoundTitle : 'Part ' + partOrder + ' of ' + objectTitle} - ${compoundFormat}</span>`;
             }
 
             /* capture index for previous and next modal items */
@@ -209,14 +209,14 @@ function displayItem(record, prev_id, next_id, compound_object) {
             /* add multiples or compound objects to page */
             if (format.includes('multiple')) {
                 /* add full size item to page */
-                itemImage += 
+                itemImage += `
                     <div id="${compoundItem[i].objectid}" class="mb-4">
                         ${itemDisplay}
-                        ${compoundTitle ? <div><small class="text-dark">${compoundTitle}</small></div> : ''}
-                    </div>;
+                        ${compoundTitle ? `<div><small class="text-dark">${compoundTitle}</small></div>` : ''}
+                    </div>`;
             } else if (format.includes('compound_object')) {
                 /* create compound object modal */
-                var itemModal = 
+                var itemModal = `
                     <div class="modal fade" id="${compoundItem[i].objectid}" tabindex="-1" role="dialog" aria-labelledby="${compoundItem[i].objectid}ModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xxl">
                             <div class="modal-content text-start">
@@ -277,10 +277,10 @@ function displayItem(record, prev_id, next_id, compound_object) {
                             </div>
                         </div>
                     </div>
-                ;
+                `;
 
                 /* return the compound object card */
-                itemImage += 
+                itemImage += `
                     <div class="col">
                         <div class="card h-100">
                             <div class="my-auto">
@@ -307,11 +307,11 @@ function displayItem(record, prev_id, next_id, compound_object) {
                             </div>
                         </div>
                     </div>
-                ;
+                `;
             }
 
             /* add compound object download links to download dropdown button */
-            compoundDownload += <li><a class="dropdown-item" target="_blank" rel="noopener" href="${compoundLink}">${compoundTitle ? compoundTitle.split(" ").splice(0,3).join(" ") + '... (' + compoundFormat + ')' : 'Item ' + partOrder + ' (' + compoundFormat + ')'}</a></li>;
+            compoundDownload += `<li><a class="dropdown-item" target="_blank" rel="noopener" href="${compoundLink}">${compoundTitle ? compoundTitle.split(" ").splice(0,3).join(" ") + '... (' + compoundFormat + ')' : 'Item ' + partOrder + ' (' + compoundFormat + ')'}</a></li>`;
         }
         if (format.includes('compound_object')) { itemImage += '</div>'; }
         compoundDownload += '</ul></div></div>';
@@ -329,33 +329,33 @@ function displayItem(record, prev_id, next_id, compound_object) {
 
     /* add content to item display area; page layout depends on item format */
     if (compound_object.length > 0 && !record.format.includes('multiple')) {
-        itemContent = 
+        itemContent = `
             <div class="mb-4">
                 ${itemImage}
                 <div class="my-2">
                     ${itemLink}
                 </div>
             </div>
-        ;
+        `;
     } else if (record.format.includes('record')) {
-        itemContent = 
+        itemContent = `
             <div class="mb-4 text-center">
                 <div class="my-2">
                     ${itemLink}
                 </div>
             </div>
-        ;
+        `;
     } else if (record.format.includes('multiple')) {
-        itemContent = 
+        itemContent = `
             <div class="mb-4 text-center">
                 ${itemImage}
                 <div class="my-2">
                     ${itemLink}
                 </div>
             </div>
-        ;
+        `;
     } else if (record.format.includes('video')|| record.format.includes('audio')) {
-        itemContent = 
+        itemContent = `
             <div class="card mb-4 text-center">
                 <div class="card-body">
                     ${itemImage}
@@ -364,9 +364,9 @@ function displayItem(record, prev_id, next_id, compound_object) {
                     </div>
                 </div>
             </div>
-        ;
+        `;
     } else if (record.format.includes('pdf')) {
-        itemContent = 
+        itemContent = `
             <div class="card mb-4 text-center">
                 <div class="card-body">
                     <p>
@@ -377,16 +377,16 @@ function displayItem(record, prev_id, next_id, compound_object) {
                     </div>
                 </div>
             </div>
-        ;
+        `;
     } else {
-        itemContent = 
+        itemContent = `
             <div class="card mb-4 text-center">
                 ${itemImage}
                 <div class="card-body">
                     ${itemLink}
                 </div>
             </div>
-        ;
+        `;
     }
     document.getElementById("item-content").innerHTML = itemContent;
     
@@ -398,14 +398,14 @@ function displayItem(record, prev_id, next_id, compound_object) {
     var backUrl = "{{ '/item.html?id=' | relative_url }}" + prev_id;
     var forwardUrl = "{{ '/item.html?id=' | relative_url }}" + next_id;
     /* add side buttons to page */
- document.getElementById("item-nav").innerHTML = <div class="d-none d-md-block">
+    document.getElementById("item-nav").innerHTML = `<div class="d-none d-md-block">
             <a id="back-button" class="previous btn btn-lg btn-secondary" href="${backUrl}">&laquo;</a>
             <a id="next-button" class="next btn btn-lg btn-secondary" href="${forwardUrl}">&raquo;</a>
-        </div>;
+        </div>`;
     /* add bottom buttons to page */
-    document.getElementById("browse-buttons").innerHTML = <a id="prev-button" class="btn btn-secondary" href="${backUrl}">&laquo; Previous</a>
+    document.getElementById("browse-buttons").innerHTML = `<a id="prev-button" class="btn btn-secondary" href="${backUrl}">&laquo; Previous</a>
         <a class="btn btn-secondary" href="{{ '/browse.html' | relative_url }}">Back to browse</a>
-        <a id="for-button" class="btn btn-secondary" href="${forwardUrl}">Next &raquo;</a>;
+        <a id="for-button" class="btn btn-secondary" href="${forwardUrl}">Next &raquo;</a>`;
 
     /* add back forward key functionality for modal arrows */
     function leftModalArrowPressed() {
