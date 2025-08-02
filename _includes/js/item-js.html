@@ -480,37 +480,39 @@ function displayItem(record, prev_id, next_id, compound_object) {
     };
     {%- endif -%}
 }
-document.addEventListener('DOMContentLoaded', function () {
+ 
     /* initiate the Item page */ 
 
+    /* get objectid from URL */
     let url = new URL(window.location);
     var itemPageId = url.searchParams.get('id');
+    /* find the item by objectid */
     var record_index = cb_items.findIndex(item => item.objectid == itemPageId); 
-    var child_records = cb_items.filter(item => item.parentid == itemPageId);
+    /* find any related children if applicable */ 
+    var compoundObject = children[itemPageId];
 
-    if (record_index != -1 && cb_items[record_index].parentid) {
-        document.getElementById("bc-title").innerHTML = 'Child Item Error!';
-        document.getElementById("item-title").innerHTML = 'This id is a child item in a compound object, please visit the <a href="{{ "/item.html" | relative_url }}?id=' + cb_items[record_index].parentid + '#' + cb_items[record_index].objectid + '">parent item page to view</a>.';
-    } else if (record_index != -1) {
-        var prev_id, next_id;
+    // display if item exists
+    if (record_index != -1) {
         {% if site.data.theme.browse-buttons == true %}
-        var parent_items = cb_items.filter(item => !item.parentid );
-        var parent_record_index = parent_items.findIndex(item => item.objectid == itemPageId); 
-        var last = parent_items.length - 1;
-        if (parent_record_index === 0) {
-            prev_id = parent_items[last].objectid;
+        // find next and previous record
+        var last = cb_items.length - 1;
+        var prev_id, next_id;
+        if (record_index === 0) {
+            prev_id = cb_items[last].objectid;
         } else { 
-            prev_id = parent_items[parent_record_index - 1].objectid;
+            prev_id = cb_items[record_index - 1].objectid;
         }
-        if (parent_record_index === last) {
-            next_id = parent_items[0].objectid;
+        if (record_index === last) {
+            next_id = cb_items[0].objectid;
         } else {
-            next_id = parent_items[parent_record_index + 1].objectid;
-        }
-        {% endif %}
+            next_id = cb_items[record_index + 1].objectid;
+        }{% endif %}
 
-        displayItem(cb_items[record_index], prev_id, next_id, child_records);
+        // display item
+        displayItem(cb_items[record_index], prev_id, next_id);
+
     } else {
+        /* no item with that ID */
         document.getElementById("bc-title").innerHTML = 'Not found?';
         document.getElementById("item-title").innerHTML = 'Sorry, item not found. Please visit <a href="{{ "/browse.html" | relative_url }}">Browse page</a> to find an item.';
     }
